@@ -53,6 +53,11 @@ class Language(str, Enum):
     BASH = "bash"
     ZIG = "zig"
     LUA = "lua"
+    LUAU = "luau"
+    """Luau Language Server for Roblox's Luau language (typed Lua 5.1 superset).
+    Uses luau-lsp by JohnnyMorganz. Automatically downloads the binary if not found.
+    Supports .luau files. Configure via .luaurc in the project root.
+    """
     NIX = "nix"
     ERLANG = "erlang"
     AL = "al"
@@ -209,6 +214,8 @@ class Language(str, Enum):
                 return FilenameMatcher("*.zig", "*.zon")
             case self.LUA:
                 return FilenameMatcher("*.lua")
+            case self.LUAU:
+                return FilenameMatcher("*.luau")
             case self.NIX:
                 return FilenameMatcher("*.nix")
             case self.ERLANG:
@@ -371,6 +378,12 @@ class Language(str, Enum):
                 from solidlsp.language_servers.lua_ls import LuaLanguageServer
 
                 return LuaLanguageServer
+
+            case self.LUAU:
+                from solidlsp.language_servers.luau_lsp import LuauLanguageServer
+
+                return LuauLanguageServer
+
             case self.ERLANG:
                 from solidlsp.language_servers.erlang_language_server import ErlangLanguageServer
 
